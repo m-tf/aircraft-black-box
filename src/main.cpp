@@ -3,6 +3,7 @@
 #include "FlightData.h"
 #include "FlightSimulator.h"
 #include "FlightComputer.h"
+#include "DataLogger.h"
 
 int main() {
     FlightData aircraft;
@@ -13,11 +14,14 @@ int main() {
     aircraft.roll = 0.0f;
     aircraft.flightState = "PARKED";
 
+    // initialize datalog once
+    initializeLog();
 
     for (int i = 1; i <= 20; i++)
     {
         updateFlight(aircraft, i);
         updateFlightState(aircraft);
+        logFlightData(aircraft, i);
         std::cout << "Time: " << i << " sec" << std::endl;
         std::cout << "Altitude: " << aircraft.altitude << std::endl;
         std::cout << "Speed: " << aircraft.speed << std::endl;

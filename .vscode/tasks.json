@@ -8,9 +8,11 @@
             "args": [
                 "-std=c++20",
                 "-g",
-                "main.cpp",
-                "FlightSimulator.cpp",
-                "FlightComputer.cpp",
+                "-Iinclude",
+                "src/main.cpp",
+                "src/FlightSimulator.cpp",
+                "src/FlightComputer.cpp",
+                "src/DataLogger.cpp",
                 "-o",
                 "blackbox"
             ],

@@ -3,6 +3,6 @@
 
 #include "FlightData.h"
 
-void updateFlight(FlightData& aircraft);
+void updateFlight(FlightData& aircraft, int time);
 
 #endif

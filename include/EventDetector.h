@@ -2,6 +2,7 @@
 #define EVENTDETECTOR_H
 
 #include "FlightData.h"
+#include "FlightEvent.h"
 
 class EventDetector
 {
@@ -13,7 +14,7 @@ public:
     EventDetector(FlightState initialState);
 
     // Checks if the aircraft's flight state has changed
-    bool detectEvent(FlightState currentState);
+    bool detectEvent(FlightState currentState, FlightEvent& event);
 };
 
 #endif

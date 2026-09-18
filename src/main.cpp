@@ -7,6 +7,7 @@
 #include "Barometer.h"
 #include "IMU.h"
 #include "EventDetector.h"
+#include "FlightEvent.h"
 
 int main() {
     FlightData aircraft;
@@ -23,6 +24,9 @@ int main() {
 
     // Create the event detector
     EventDetector eventDetector(aircraft.flightState);
+
+    // Stores information about a detected flight event
+    FlightEvent event;
 
 
     // initialize datalog once
@@ -42,9 +46,15 @@ int main() {
         updateFlightState(aircraft, measuredAltitude, measuredPitch);
 
         // Print the changed flight state once state changes
-        if (eventDetector.detectEvent(aircraft.flightState))
+        if (eventDetector.detectEvent(aircraft.flightState, event))
         {
-            std::cout << "EVENT: Flight state changed to " << flightStateToString(aircraft.flightState) << std::endl;
+            std::cout << "EVENT: " 
+                      << flightStateToString(event.previousState) 
+                      << " -> " 
+                      << flightStateToString(event.currentState) 
+                      << std::endl;
+            
+            logFlightEvent(event, i);
         }
         
 

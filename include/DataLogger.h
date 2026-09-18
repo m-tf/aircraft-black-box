@@ -2,6 +2,7 @@
 #define DATALOGGER_H
 
 #include "FlightData.h"
+#include "FlightEvent.h"
 
 void initializeLog();
 
@@ -12,4 +13,6 @@ void logFlightData(
     float measuredAltitude, 
     float measuredPitch);
 
+// logs a change in the aircraft's flight state
+void logFlightEvent(const FlightEvent& event, int time);
 #endif

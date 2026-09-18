@@ -31,9 +31,19 @@ void updateFlight(FlightData& aircraft, int time) {
         break;
 
     case CLIMB:
+        // Simulate excessive pitch fault
+        if (time == 12)
+        {
+            aircraft.pitch = 25.0f;
+        }
+        else
+        {
+            aircraft.pitch = 10.0f;
+        }
+        
         aircraft.speed += 15.0f;
         aircraft.altitude += 100.0f;
-        aircraft.pitch = 10.0f;
+
         break;
     
     case CRUISE:

@@ -6,17 +6,36 @@ EventDetector::EventDetector(FlightState initialState)
     previousState = initialState;
 }
 
-bool EventDetector::detectEvent(FlightState currentState, FlightEvent& event)
+bool EventDetector::detectStateChange(FlightState currentState, FlightEvent& event)
 {
     // Check if the aircraft has changed flight states
     if (previousState != currentState)
     {
+        event.type = STATE_CHANGE;
         event.previousState = previousState;
         event.currentState = currentState;
         
         // Save the current state for the next check
         previousState = currentState;
 
+        return true;
+    }
+
+    return false;
+
+}
+
+bool EventDetector::detectExcessivePitch(const SensorData& sensorData, FlightEvent& event)
+{
+    // Maximum safe pitch angle
+    const float MAX_SAFE_PITCH = 20.0f;
+
+    if (sensorData.pitch > MAX_SAFE_PITCH || sensorData.pitch < -MAX_SAFE_PITCH)
+    {
+        // Set the detected event type
+        event.type = EXCESSIVE_PITCH;
+        event.sensorValue = sensorData.pitch;
+        
         return true;
     }
 

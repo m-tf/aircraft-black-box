@@ -49,8 +49,16 @@ int main() {
         // Update the flight state using the sensor measurements
         updateFlightState(aircraft, sensorData);
 
+        // Check for excessive pitch fault
+        if (eventDetector.detectExcessivePitch(sensorData, event))
+        {
+            std::cout << "WARNING: Excessive pitch detected: " << event.sensorValue << " degrees" << std::endl;
+            logFlightEvent(event, i);
+        }
+        
+
         // Print the changed flight state once state changes
-        if (eventDetector.detectEvent(aircraft.flightState, event))
+        if (eventDetector.detectStateChange(aircraft.flightState, event))
         {
             std::cout << "EVENT: " 
                       << flightStateToString(event.previousState) 

@@ -7,6 +7,8 @@
 int currentFlight = 0;
 
 void initializeLog() {
+
+    // Log flight data
     std::ifstream flightReadFile("flight_log.csv");
 
     if (!flightReadFile.is_open())
@@ -36,14 +38,16 @@ void initializeLog() {
         currentFlight = lastFlight + 1;
     }
 
+    // Log event data
     std::ifstream eventReadFile("event_log.csv");
+
     if (!eventReadFile.is_open())
     {
         // No previous log
         std::ofstream eventFile("event_log.csv");
 
         // Create the CSV header
-        eventFile << "flight,time,previous_state,current_state" << std::endl;
+        eventFile << "flight,time,event_type,previous_state,current_state,sensor_value" << std::endl;
     }
 
     
@@ -70,8 +74,19 @@ void logFlightEvent(const FlightEvent& event, int time)
 {
     std::ofstream loadFile("event_log.csv", std::ios::app);
 
+    // Log the flight number, time and event type
     loadFile << currentFlight << ","
              << time << ","
-             << flightStateToString(event.previousState) << ","
-             << flightStateToString(event.currentState) << std::endl;
+             << eventTypeToString(event.type) << ",";
+
+    if (event.type == STATE_CHANGE)
+    {
+        loadFile << flightStateToString(event.previousState) << ","
+                 << flightStateToString(event.currentState) << "," << std::endl;
+    }
+
+    else if (event.type == EXCESSIVE_PITCH)
+    {
+        loadFile << ",," << event.sensorValue << std::endl;
+    }
 }

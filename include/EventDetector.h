@@ -3,6 +3,7 @@
 
 #include "FlightData.h"
 #include "FlightEvent.h"
+#include "SensorData.h"
 
 class EventDetector
 {
@@ -14,7 +15,10 @@ public:
     EventDetector(FlightState initialState);
 
     // Checks if the aircraft's flight state has changed
-    bool detectEvent(FlightState currentState, FlightEvent& event);
+    bool detectStateChange(FlightState currentState, FlightEvent& event);
+
+    // Checks if the aircraft's pitch exceeds the safe limit
+    bool detectExcessivePitch(const SensorData& sensorData, FlightEvent& event);
 };
 
 #endif

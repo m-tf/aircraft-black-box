@@ -9,6 +9,9 @@ class EventDetector
 {
 private:
     FlightState previousState;
+    
+    // Tracks whether an excessive pitch condition is currently active
+    bool excessivePitchActive;
 
 public:
     // Creates the event detector

@@ -4,6 +4,7 @@
 EventDetector::EventDetector(FlightState initialState)
 {
     previousState = initialState;
+    excessivePitchActive = false;
 }
 
 bool EventDetector::detectStateChange(FlightState currentState, FlightEvent& event)
@@ -32,11 +33,24 @@ bool EventDetector::detectExcessivePitch(const SensorData& sensorData, FlightEve
 
     if (sensorData.pitch > MAX_SAFE_PITCH || sensorData.pitch < -MAX_SAFE_PITCH)
     {
-        // Set the detected event type
-        event.type = EXCESSIVE_PITCH;
-        event.sensorValue = sensorData.pitch;
+        if (!excessivePitchActive)
+        {
+            // Set the detected event type
+            event.type = EXCESSIVE_PITCH;
+            event.sensorValue = sensorData.pitch;
+
+            // Mark the excessive pitch condition as active
+            excessivePitchActive = true;
+
+            return true;
+        }
         
-        return true;
+    }
+
+    else
+    {
+        // Pitch is safe again
+        excessivePitchActive = false;
     }
 
     return false;

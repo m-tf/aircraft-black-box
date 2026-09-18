@@ -4,6 +4,12 @@ void updateFlightState(FlightData& aircraft, float measuredAltitude) {
 
     // Treat small barometer readings as ground level to account for sensor error
     const float GROUND_ALTITUDE_THRESHOLD = 5.0f;
+    // Altitude where the aircraft enters cruise
+    const float CRUISE_ALTITUDE = 1000.0f;
+    // Altitude the aircraft must fall below before leaving cruise
+    const float CRUISE_EXIT_ALTITUDE = 990.0f;
+    // Allows for small sensor errors when detecting cruise altitude
+    const float CRUISE_ALTITUDE_TOLERANCE = 5.0f;
  
     if (aircraft.speed == 0)
     {
@@ -28,11 +34,19 @@ void updateFlightState(FlightData& aircraft, float measuredAltitude) {
     {
         aircraft.flightState = TAKEOFF;
     }
-    else if (measuredAltitude >= 300 && measuredAltitude < 1000)
+    // keep the aircraft in cruise during small altitude fluctuations
+    else if (aircraft.flightState == CRUISE &&
+            measuredAltitude >= CRUISE_EXIT_ALTITUDE)
+    {
+        aircraft.flightState = CRUISE;
+    }
+    else if (measuredAltitude >= 300 &&
+        measuredAltitude < CRUISE_ALTITUDE - CRUISE_ALTITUDE_TOLERANCE)
     {
         aircraft.flightState = CLIMB;
     }
-    else if (measuredAltitude >= 1000)
+    // Enter cruise when altitude is within the sensor tolerance
+    else if (measuredAltitude >= CRUISE_ALTITUDE - CRUISE_ALTITUDE_TOLERANCE)
     {
         aircraft.flightState = CRUISE;
     }

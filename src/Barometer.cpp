@@ -1,7 +1,21 @@
 #include "Barometer.h"
 
+Barometer::Barometer()
+{
+    // Generate a random seed
+    std::random_device rd;
+
+    // Create the random number generator
+    generator = std::mt19937(rd());
+}
+
 // Returns the simulated altitude measurement
 float Barometer::readAltitude(float actualAltitude)
 {
-    return actualAltitude + 2.0f;
+    // Set the range for simulated barometer noise
+    std::uniform_real_distribution<float> noise(-2.0f, 2.0f);
+
+    float sensorNoise = noise(generator);
+
+    return actualAltitude + sensorNoise;
 }

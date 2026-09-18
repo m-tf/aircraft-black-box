@@ -3,6 +3,7 @@
 
 #include "FlightData.h"
 
-void updateFlightState(FlightData& aircraft);
+// Updates the aircraft's flight state using current flight and sensor data
+void updateFlightState(FlightData& aircraft, float measuredAltitude);
 
 #endif

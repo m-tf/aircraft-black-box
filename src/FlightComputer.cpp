@@ -1,34 +1,38 @@
 #include "FlightComputer.h"
 
-void updateFlightState(FlightData& aircraft) {
+void updateFlightState(FlightData& aircraft, float measuredAltitude) {
+
+    // Treat small barometer readings as ground level to account for sensor error
+    const float GROUND_ALTITUDE_THRESHOLD = 5.0f;
  
     if (aircraft.speed == 0)
     {
         aircraft.flightState = PARKED;
     }
-    else if (aircraft.altitude == 0 && aircraft.speed > 0 &&
+    else if (measuredAltitude <= GROUND_ALTITUDE_THRESHOLD && aircraft.speed > 0 &&
             (aircraft.flightState == DESCENT || aircraft.flightState == LANDING))
     {
         aircraft.flightState = LANDING;
     }
     
-    else if (aircraft.speed > 0 && aircraft.altitude == 0)
+    else if (aircraft.speed > 0 && 
+            measuredAltitude <= GROUND_ALTITUDE_THRESHOLD)
     {
         aircraft.flightState = TAXI;
     }
-    else if (aircraft.altitude > 0 && aircraft.pitch < 0)
+    else if (measuredAltitude > 0 && aircraft.pitch < 0)
     {
         aircraft.flightState = DESCENT;
     }
-    else if (aircraft.altitude > 0 && aircraft.altitude < 300)
+    else if (measuredAltitude > 0 && measuredAltitude < 300)
     {
         aircraft.flightState = TAKEOFF;
     }
-    else if (aircraft.altitude >= 300 && aircraft.altitude < 1000)
+    else if (measuredAltitude >= 300 && measuredAltitude < 1000)
     {
         aircraft.flightState = CLIMB;
     }
-    else if (aircraft.altitude >= 1000)
+    else if (measuredAltitude >= 1000)
     {
         aircraft.flightState = CRUISE;
     }

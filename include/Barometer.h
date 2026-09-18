@@ -13,6 +13,9 @@ public:
 
     // Returns the measured altitude based on the aircraft's actual altitude
     float readAltitude(float actualAltitude);
+
+    // Returns an intentionally faulty altitude measurement for testing
+    float readFaultyAltitude(float actualAltitude);
 };
 
 #endif

@@ -12,6 +12,9 @@ std::string eventTypeToString(EventType type)
         
         case PITCH_NORMAL:
             return "PITCH_NORMAL";
+
+        case ALTITUDE_FAULT:
+            return "ALTITUDE_FAULT";
             
         default:
                 return "UNKNOWN";

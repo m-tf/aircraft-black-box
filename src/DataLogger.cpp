@@ -96,4 +96,10 @@ void logFlightEvent(const FlightEvent& event, int time)
         loadFile << ",," << event.sensorValue << std::endl;
     }
     
+    else if (event.type == ALTITUDE_FAULT)
+    {
+        // Log the altitude measurement that triggered the fault
+        loadFile << ",," << event.sensorValue << std::endl;
+    }
+    
 }

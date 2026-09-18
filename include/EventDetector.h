@@ -13,6 +13,12 @@ private:
     // Tracks whether an excessive pitch condition is currently active
     bool excessivePitchActive;
 
+    // Stores the previous altitude measurement
+    float previousAltitude;
+
+    // Tracks whether an altitude measurement has already been stored
+    bool hasPreviousAltitude;
+
 public:
     // Creates the event detector
     EventDetector(FlightState initialState);
@@ -22,6 +28,9 @@ public:
 
     // Checks if the aircraft's pitch exceeds the safe limit
     bool detectExcessivePitch(const SensorData& sensorData, FlightEvent& event);
+
+    // Checks for an unrealistic change in altitude
+    bool detectAltitudeFault(const SensorData& sensorData, FlightEvent& event);
 };
 
 #endif

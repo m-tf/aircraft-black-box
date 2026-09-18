@@ -12,7 +12,9 @@ enum EventType
     EXCESSIVE_PITCH,
 
     // Indicates the aircraft pitch has returned to a safe range
-    PITCH_NORMAL
+    PITCH_NORMAL,
+
+    ALTITUDE_FAULT
 };
 
 // Converts an event type to a string

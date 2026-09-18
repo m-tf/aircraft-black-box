@@ -41,10 +41,29 @@ int main() {
         updateFlight(aircraft, i);
 
         // Read the aircraft's altitude using the simulated barometer
-        sensorData.altitude = barometer.readAltitude(aircraft.altitude);
+        if (i == 10)
+        {
+            // Simulate fa faulty barometer reading
+            sensorData.altitude = barometer.readFaultyAltitude(aircraft.altitude);
+        }
+        else
+        {
+            sensorData.altitude = barometer.readAltitude(aircraft.altitude);
+        }
 
         // Read the aircraft's pitch using the simulated IMU
         sensorData.pitch = imu.readPitch(aircraft.pitch);
+
+        // Check for an unrealistic change in altitude
+        if (eventDetector.detectAltitudeFault(sensorData, event))
+        {
+            std::cout << "WARNING: Altitude sensor fault detected : "
+                      << event.sensorValue
+                      << " feet" << std::endl;
+            
+            logFlightEvent(event, i);
+        }
+        
 
         // Update the flight state using the sensor measurements
         updateFlightState(aircraft, sensorData);
@@ -52,7 +71,10 @@ int main() {
         // Check for excessive pitch fault
         if (eventDetector.detectExcessivePitch(sensorData, event))
         {
-            std::cout << "WARNING: Excessive pitch detected: " << event.sensorValue << " degrees" << std::endl;
+            std::cout << "WARNING: Excessive pitch detected: " 
+                      << event.sensorValue 
+                      << " degrees" << std::endl;
+                      
             logFlightEvent(event, i);
         }
         

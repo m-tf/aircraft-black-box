@@ -19,3 +19,9 @@ float Barometer::readAltitude(float actualAltitude)
 
     return actualAltitude + sensorNoise;
 }
+
+float Barometer::readFaultyAltitude(float actualAltitude)
+{
+    // Simulate a barometer reading 100 feet above the actual altitude
+    return actualAltitude + 1000.0f;
+}

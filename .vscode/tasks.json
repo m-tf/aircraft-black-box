@@ -15,6 +15,7 @@
                 "src/DataLogger.cpp",
                 "src/FlightData.cpp",
                 "src/Barometer.cpp",
+                "src/IMU.cpp",
                 "-o",
                 "blackbox"
             ],

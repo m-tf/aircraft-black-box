@@ -1,6 +1,6 @@
 #include "FlightComputer.h"
 
-void updateFlightState(FlightData& aircraft, float measuredAltitude) {
+void updateFlightState(FlightData& aircraft, float measuredAltitude, float measuredPitch) {
 
     // Treat small barometer readings as ground level to account for sensor error
     const float GROUND_ALTITUDE_THRESHOLD = 5.0f;
@@ -10,6 +10,8 @@ void updateFlightState(FlightData& aircraft, float measuredAltitude) {
     const float CRUISE_EXIT_ALTITUDE = 990.0f;
     // Allows for small sensor errors when detecting cruise altitude
     const float CRUISE_ALTITUDE_TOLERANCE = 5.0f;
+    // Ignores small IMY pitch changes caused by sensor noise
+    const float PITCH_TOLERANCE = 1.0f;
  
     if (aircraft.speed == 0)
     {
@@ -26,7 +28,7 @@ void updateFlightState(FlightData& aircraft, float measuredAltitude) {
     {
         aircraft.flightState = TAXI;
     }
-    else if (measuredAltitude > 0 && aircraft.pitch < 0)
+    else if (measuredAltitude > 0 && measuredPitch < -PITCH_TOLERANCE)
     {
         aircraft.flightState = DESCENT;
     }

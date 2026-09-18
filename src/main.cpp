@@ -5,11 +5,14 @@
 #include "FlightComputer.h"
 #include "DataLogger.h"
 #include "Barometer.h"
+#include "IMU.h"
 
 int main() {
     FlightData aircraft;
-    //create the simulated barometer sensor
+    // Create the simulated barometer sensor
     Barometer barometer;
+    // Create the simulated pitch sensor
+    IMU imu;
 
     aircraft.altitude = 0.0f;
     aircraft.speed = 0.0f;
@@ -27,8 +30,11 @@ int main() {
         // Read the aircraft's altitude using the simulated barometer
         float measuredAltitude = barometer.readAltitude(aircraft.altitude);
 
+        // Read the aircraft's pitch using the simulated IMU
+        float measuredPitch = imu.readPitch(aircraft.pitch);
+
         // Update the flight state using the sensor measurement
-        updateFlightState(aircraft, measuredAltitude);
+        updateFlightState(aircraft, measuredAltitude, measuredPitch);
         logFlightData(aircraft, i);
         
         std::cout << "Time: " << i << " sec" << std::endl;
@@ -37,6 +43,7 @@ int main() {
         std::cout << "Pitch: " << aircraft.pitch << std::endl;
         std::cout << "State: " << flightStateToString(aircraft.flightState) << std::endl;
         std::cout << "Barometer: " << measuredAltitude << std::endl;
+        std::cout << "IMU pitch: " << measuredPitch << std::endl;
         std::cout << std::endl;
     }
     

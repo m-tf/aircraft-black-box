@@ -16,6 +16,7 @@
                 "src/FlightData.cpp",
                 "src/Barometer.cpp",
                 "src/IMU.cpp",
+                "src/EventDetector.cpp",
                 "-o",
                 "blackbox"
             ],

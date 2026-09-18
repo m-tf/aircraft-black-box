@@ -5,6 +5,11 @@
 
 void initializeLog();
 
-void logFlightData(const FlightData& aircraft, int time);
+// Logs the aircraft data and sensor measurements to the flight log
+void logFlightData(
+    const FlightData& aircraft, 
+    int time, 
+    float measuredAltitude, 
+    float measuredPitch);
 
 #endif

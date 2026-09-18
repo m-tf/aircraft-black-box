@@ -14,7 +14,8 @@ void initializeLog() {
         // no previous log
         currentFlight = 1;
         std::ofstream loadFile("flight_log.csv");
-        loadFile << "flight,time,altitude,speed,pitch,roll,state" << std::endl;
+        //Create the CSV header
+        loadFile << "flight,time,actual_altitude,measured_altitude,speed,actual_pitch,measured_pitch,roll,state" << std::endl;
     }
     else {
         // previous log exists
@@ -40,15 +41,17 @@ void initializeLog() {
     
 }
 
-void logFlightData(const FlightData& aircraft, int time) {
+void logFlightData(const FlightData& aircraft, int time, float measuredAltitude, float measuredPitch) {
 
     std::ofstream loadFile("flight_log.csv", std::ios::app);
 
     loadFile << currentFlight << ","
              << time << ","
              << aircraft.altitude << ","
+             << measuredAltitude << ","
              << aircraft.speed << ","
              << aircraft.pitch << "," 
+             << measuredPitch << ","
              << aircraft.roll << ","
              << flightStateToString(aircraft.flightState) << std::endl;
 }

@@ -2,16 +2,16 @@
 
 void updateFlight(FlightData& aircraft, int time) {
     
-    if (aircraft.flightState == PARKED)
+    switch (aircraft.flightState)
     {
+    case PARKED:
         if (time == 3)
         {
             aircraft.speed += 15.0f;
         }
-        
-    }
-    else if (aircraft.flightState == TAXI)
-    {
+        break;
+
+    case TAXI:
         if (aircraft.speed < 45.0f)
         {
             aircraft.speed += 15.0f;
@@ -22,21 +22,21 @@ void updateFlight(FlightData& aircraft, int time) {
             aircraft.altitude += 100.0f;
             aircraft.pitch = 10.0f;
         }
-    }
-    else if (aircraft.flightState == TAKEOFF)
-    {
+        break;
+
+    case TAKEOFF:
         aircraft.speed += 15.0f;
         aircraft.altitude += 100.0f;
         aircraft.pitch = 10.0f;
-    }
-    else if (aircraft.flightState == CLIMB)
-    {
+        break;
+
+    case CLIMB:
         aircraft.speed += 15.0f;
         aircraft.altitude += 100.0f;
         aircraft.pitch = 10.0f;
-    }
-    else if (aircraft.flightState == CRUISE)
-    {
+        break;
+    
+    case CRUISE:
         aircraft.pitch = 0.0f;
 
         if (time > 20)
@@ -44,14 +44,14 @@ void updateFlight(FlightData& aircraft, int time) {
             aircraft.altitude -= 100.0f;
             aircraft.pitch = -5.0f;
         }
-    }
-    else if (aircraft.flightState == DESCENT)
-    {
+        break;
+    
+    case DESCENT:
         aircraft.altitude -= 100.0f;
         aircraft.pitch = -5.0f;
-    }
-    else if (aircraft.flightState == LANDING)
-    {
+        break;
+    
+    case LANDING:
         aircraft.pitch = 0.0f;
 
         if (aircraft.speed > 30.0f)
@@ -61,6 +61,9 @@ void updateFlight(FlightData& aircraft, int time) {
         else {
             aircraft.speed = 0.0f;
         }
-        
+        break;
+
+    default:
+        break;
     }
 }

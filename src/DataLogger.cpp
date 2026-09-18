@@ -89,4 +89,11 @@ void logFlightEvent(const FlightEvent& event, int time)
     {
         loadFile << ",," << event.sensorValue << std::endl;
     }
+
+    else if (event.type == PITCH_NORMAL)
+    {
+        // Same CSV layout as an excessive pitch event
+        loadFile << ",," << event.sensorValue << std::endl;
+    }
+    
 }

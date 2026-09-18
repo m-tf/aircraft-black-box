@@ -9,7 +9,10 @@
 enum EventType
 {
     STATE_CHANGE,
-    EXCESSIVE_PITCH
+    EXCESSIVE_PITCH,
+
+    // Indicates the aircraft pitch has returned to a safe range
+    PITCH_NORMAL
 };
 
 // Converts an event type to a string

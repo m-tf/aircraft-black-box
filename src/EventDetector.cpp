@@ -49,8 +49,17 @@ bool EventDetector::detectExcessivePitch(const SensorData& sensorData, FlightEve
 
     else
     {
-        // Pitch is safe again
-        excessivePitchActive = false;
+        // Check if the aircraft has recovered from excessive pitch
+        if (excessivePitchActive)
+        {
+            event.type = PITCH_NORMAL;
+            event.sensorValue = sensorData.pitch;
+
+            // Pitch is safe again
+            excessivePitchActive = false;
+
+            return true;
+        }
     }
 
     return false;

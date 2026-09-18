@@ -9,6 +9,9 @@ std::string eventTypeToString(EventType type)
 
         case EXCESSIVE_PITCH:
             return "EXCESSIVE_PITCH";
+        
+        case PITCH_NORMAL:
+            return "PITCH_NORMAL";
             
         default:
                 return "UNKNOWN";

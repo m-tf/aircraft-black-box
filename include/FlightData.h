@@ -3,13 +3,25 @@
 
 #include <string>
 
+enum FlightState {
+    PARKED,
+    TAXI,
+    TAKEOFF,
+    CLIMB,
+    CRUISE,
+    DESCENT,
+    LANDING
+};
+
+std::string flightStateToString(FlightState state);
+
 struct FlightData
 {
     float altitude;
     float speed;
     float pitch;
     float roll;
-    std::string flightState;
+    FlightState flightState;
 };
 
 #endif

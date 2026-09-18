@@ -13,6 +13,7 @@
                 "src/FlightSimulator.cpp",
                 "src/FlightComputer.cpp",
                 "src/DataLogger.cpp",
+                "src/FlightData.cpp",
                 "-o",
                 "blackbox"
             ],

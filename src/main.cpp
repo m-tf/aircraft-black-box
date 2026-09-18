@@ -12,12 +12,12 @@ int main() {
     aircraft.speed = 0.0f;
     aircraft.pitch = 0.0f;
     aircraft.roll = 0.0f;
-    aircraft.flightState = "PARKED";
+    aircraft.flightState = PARKED;
 
     // initialize datalog once
     initializeLog();
 
-    for (int i = 1; i <= 20; i++)
+    for (int i = 1; i <= 40; i++)
     {
         updateFlight(aircraft, i);
         updateFlightState(aircraft);
@@ -25,8 +25,8 @@ int main() {
         std::cout << "Time: " << i << " sec" << std::endl;
         std::cout << "Altitude: " << aircraft.altitude << std::endl;
         std::cout << "Speed: " << aircraft.speed << std::endl;
-        std::cout << "Pitch : " << aircraft.pitch << std::endl;
-        std::cout << "State : " << aircraft.flightState << std::endl;
+        std::cout << "Pitch: " << aircraft.pitch << std::endl;
+        std::cout << "State: " << flightStateToString(aircraft.flightState) << std::endl;
         std::cout << std::endl;
     }
     

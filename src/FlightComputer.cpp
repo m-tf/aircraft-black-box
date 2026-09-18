@@ -4,26 +4,32 @@ void updateFlightState(FlightData& aircraft) {
  
     if (aircraft.speed == 0)
     {
-        aircraft.flightState = "PARKED";
+        aircraft.flightState = PARKED;
     }
+    else if (aircraft.altitude == 0 && aircraft.speed > 0 &&
+            (aircraft.flightState == DESCENT || aircraft.flightState == LANDING))
+    {
+        aircraft.flightState = LANDING;
+    }
+    
     else if (aircraft.speed > 0 && aircraft.altitude == 0)
     {
-        aircraft.flightState = "TAXI";
+        aircraft.flightState = TAXI;
+    }
+    else if (aircraft.altitude > 0 && aircraft.pitch < 0)
+    {
+        aircraft.flightState = DESCENT;
     }
     else if (aircraft.altitude > 0 && aircraft.altitude < 300)
     {
-        aircraft.flightState = "TAKEOFF";
+        aircraft.flightState = TAKEOFF;
     }
     else if (aircraft.altitude >= 300 && aircraft.altitude < 1000)
     {
-        aircraft.flightState = "CLIMB";
+        aircraft.flightState = CLIMB;
     }
     else if (aircraft.altitude >= 1000)
     {
-        aircraft.flightState = "CRUISE";
+        aircraft.flightState = CRUISE;
     }
-    
-    
-    
-    
 }

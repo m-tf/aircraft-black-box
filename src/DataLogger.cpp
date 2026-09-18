@@ -50,5 +50,5 @@ void logFlightData(const FlightData& aircraft, int time) {
              << aircraft.speed << ","
              << aircraft.pitch << "," 
              << aircraft.roll << ","
-             << aircraft.flightState << std::endl;
+             << flightStateToString(aircraft.flightState) << std::endl;
 }

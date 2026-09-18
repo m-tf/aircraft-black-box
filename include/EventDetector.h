@@ -19,6 +19,9 @@ private:
     // Tracks whether an altitude measurement has already been stored
     bool hasPreviousAltitude;
 
+    // Tracks whether the previous altitude reading was rejected
+    bool altitudeFaultActive;
+
 public:
     // Creates the event detector
     EventDetector(FlightState initialState);

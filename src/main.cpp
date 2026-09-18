@@ -43,7 +43,7 @@ int main() {
         // Read the aircraft's altitude using the simulated barometer
         if (i == 10)
         {
-            // Simulate fa faulty barometer reading
+            // Simulate a faulty barometer reading
             sensorData.altitude = barometer.readFaultyAltitude(aircraft.altitude);
         }
         else
@@ -63,23 +63,39 @@ int main() {
             
             logFlightEvent(event, i);
         }
-        
+        else
+        {
+            // Sensor data passed validation
 
-        // Update the flight state using the sensor measurements
-        updateFlightState(aircraft, sensorData);
+            // Update the flight state using the sensor measurements
+            updateFlightState(aircraft, sensorData);
+        }
+        
 
         // Check for excessive pitch fault
         if (eventDetector.detectExcessivePitch(sensorData, event))
         {
-            std::cout << "WARNING: Excessive pitch detected: " 
-                      << event.sensorValue 
-                      << " degrees" << std::endl;
-                      
+            if (event.type == EXCESSIVE_PITCH)
+            {
+            
+                std::cout << "WARNING: Excessive pitch detected: " 
+                        << event.sensorValue 
+                        << " degrees" << std::endl;
+
+            }
+            else if (event.type == PITCH_NORMAL)
+            {
+                std::cout << "EVENT: Pitch returned to normal: "
+                          << event.sensorValue
+                          << " degrees" << std::endl;
+            }
+            
             logFlightEvent(event, i);
+            
         }
         
 
-        // Print the changed flight state once state changes
+        // Check for a change in the aircraft's flight state
         if (eventDetector.detectStateChange(aircraft.flightState, event))
         {
             std::cout << "EVENT: " 

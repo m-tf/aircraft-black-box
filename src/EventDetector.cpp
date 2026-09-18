@@ -2,6 +2,7 @@
 
 #include <math.h>
 
+
 // Creates the event detector with the aircraft's starting state
 EventDetector::EventDetector(FlightState initialState)
 {
@@ -9,6 +10,7 @@ EventDetector::EventDetector(FlightState initialState)
     excessivePitchActive = false;
     previousAltitude = 0.0f;
     hasPreviousAltitude = false;
+    altitudeFaultActive = false;
 }
 
 bool EventDetector::detectStateChange(FlightState currentState, FlightEvent& event)
@@ -83,6 +85,15 @@ bool EventDetector::detectAltitudeFault(const SensorData& sensorData, FlightEven
         return false;
     }
 
+    if (altitudeFaultActive)
+    {
+        // Re-establish altitude tracking after a rejected reading
+        previousAltitude = sensorData.altitude;
+        altitudeFaultActive = false;
+
+        return false;
+    }
+    
     float altitudeChange = std::abs(sensorData.altitude - previousAltitude);
 
 
@@ -90,6 +101,9 @@ bool EventDetector::detectAltitudeFault(const SensorData& sensorData, FlightEven
     {
         event.type = ALTITUDE_FAULT;
         event.sensorValue = sensorData.altitude;
+
+        // Mark the altitude fault as active
+        altitudeFaultActive = true;
         
         return true;
     }

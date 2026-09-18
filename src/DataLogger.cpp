@@ -51,17 +51,17 @@ void initializeLog() {
     
 }
 
-void logFlightData(const FlightData& aircraft, int time, float measuredAltitude, float measuredPitch) {
+void logFlightData(const FlightData& aircraft, int time, const SensorData& sensorData) {
 
     std::ofstream loadFile("flight_log.csv", std::ios::app);
 
     loadFile << currentFlight << ","
              << time << ","
              << aircraft.altitude << ","
-             << measuredAltitude << ","
+             << sensorData.altitude << ","
              << aircraft.speed << ","
              << aircraft.pitch << "," 
-             << measuredPitch << ","
+             << sensorData.pitch << ","
              << aircraft.roll << ","
              << flightStateToString(aircraft.flightState) << std::endl;
 }

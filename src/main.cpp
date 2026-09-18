@@ -8,6 +8,8 @@
 #include "IMU.h"
 #include "EventDetector.h"
 #include "FlightEvent.h"
+#include "SensorData.h"
+
 
 int main() {
     FlightData aircraft;
@@ -15,6 +17,8 @@ int main() {
     Barometer barometer;
     // Create the simulated pitch sensor
     IMU imu;
+    // Stores measurements from the aircraft's sensors
+    SensorData sensorData;
 
     aircraft.altitude = 0.0f;
     aircraft.speed = 0.0f;
@@ -37,13 +41,13 @@ int main() {
         updateFlight(aircraft, i);
 
         // Read the aircraft's altitude using the simulated barometer
-        float measuredAltitude = barometer.readAltitude(aircraft.altitude);
+        sensorData.altitude = barometer.readAltitude(aircraft.altitude);
 
         // Read the aircraft's pitch using the simulated IMU
-        float measuredPitch = imu.readPitch(aircraft.pitch);
+        sensorData.pitch = imu.readPitch(aircraft.pitch);
 
-        // Update the flight state using the sensor measurement
-        updateFlightState(aircraft, measuredAltitude, measuredPitch);
+        // Update the flight state using the sensor measurements
+        updateFlightState(aircraft, sensorData);
 
         // Print the changed flight state once state changes
         if (eventDetector.detectEvent(aircraft.flightState, event))
@@ -59,15 +63,15 @@ int main() {
         
 
         // Log the aircraft data and sensor measurements
-        logFlightData(aircraft, i, measuredAltitude, measuredPitch);
+        logFlightData(aircraft, i, sensorData);
         
         std::cout << "Time: " << i << " sec" << std::endl;
         std::cout << "Altitude: " << aircraft.altitude << std::endl;
         std::cout << "Speed: " << aircraft.speed << std::endl;
         std::cout << "Pitch: " << aircraft.pitch << std::endl;
         std::cout << "State: " << flightStateToString(aircraft.flightState) << std::endl;
-        std::cout << "Barometer: " << measuredAltitude << std::endl;
-        std::cout << "IMU pitch: " << measuredPitch << std::endl;
+        std::cout << "Barometer: " << sensorData.altitude << std::endl;
+        std::cout << "IMU pitch: " << sensorData.pitch << std::endl;
         std::cout << std::endl;
     }
     

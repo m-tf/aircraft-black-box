@@ -4,7 +4,7 @@
 #include "FlightData.h"
 
 
-// Contains the  previous and current states of a flight event
+// Contains the previous and current states of a flight event
 struct FlightEvent
 {
     FlightState previousState;
